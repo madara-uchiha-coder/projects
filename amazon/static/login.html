@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login Page with Show Password</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700" />
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="profile-icon">
+      <div class="profile-icon-inner"></div>
+      <div class="profile-icon-bottom"></div>
+    </div>
+    <form action="/submit" id="myForm" method="POST">
+      <input class="input-field" type="email" id="email"
+      placeholder="Email" required />
+      <div class="input-group">
+        <input class="input-field" type="password" id="pass" placeholder="Password" id="password" required />
+        <svg id="togglePassword" class="eye-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" >
+          <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5
+          5 2.24 5 5-2.24 5-5 5zm0-8.5c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5
+          3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5z"/>
+        </svg>
+      </div>
+      <button class="login-btn" onclick="goToPage()" id="loginBtn" type="submit">Log In</button>
+    </form>
+    <a class="bottom-link" href="#">Forgot password?</a>
+    <a class="bottom-link signup" href="#">Not a member? Sign up now</a>
+</div>
+  <script>
+    function goToPage() {
+      window.location.href = "webpage.html";
+    }
+  </script>
+  <script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+
+    togglePassword.addEventListener('click', function () {
+      // toggle the type attribute
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      // toggle the eye icon fill color
+      this.style.fill = type === 'password' ? '#888' : '#36bbf7';
+    });
+  </script>
+  <script>
+    document.getElementById("myForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("pass").value;
+
+      const response = await fetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password}),
+      });
+
+      const result = await response.json();
+    });
+     
+  </script>
+</body>
+</html>

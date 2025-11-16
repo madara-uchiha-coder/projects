@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart - Amazon Clone</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .header {
+      background: #131921;
+      color: #fff;
+      padding: 16px 36px;
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+    .cart-container {
+      flex: 1 0 auto;
+      max-width: 900px;
+      margin: 32px auto 0 auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px #0002;
+      padding: 28px;
+    }
+    h2 {
+      margin-top: 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 18px;
+      background: #fff;
+    }
+    th, td {
+      padding: 14px 8px;
+      text-align: left;
+    }
+    th {
+      background: #f3a847;
+    }
+    tr:nth-child(even) {
+      background: #fafafa;
+    }
+    .total {
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-align: right;
+      margin-top: 24px;
+      color: #b12704;
+    }
+    .footer {
+      text-align: center;
+      background: #232f3e;
+      color: #fff;
+      padding: 16px 0;
+      font-size: 1rem;
+      margin-top: auto;
+    }
+    .remove-btn {
+      background: #ff5050;
+      color: #fff;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .remove-btn:hover {
+      background: #c0392b;
+    }
+    .empty-message {
+      text-align: center;
+      margin: 48px 0;
+      font-size: 1.25rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <span>amazon</span> - Cart
+  </div>
+  <div class="cart-container">
+    <h2>Your Cart</h2>
+    <table id="cartTable">
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+          <th>Remove</th>
+        </tr>
+      </thead>
+      <tbody id="cartBody">
+        <!-- Items will be loaded here -->
+      </tbody>
+    </table>
+    <div class="empty-message" id="emptyMessage" style="display:none;">
+      Your cart is empty.
+    </div>
+    <div class="total" id="cartTotal"></div>
+  </div>
+  <footer class="footer">
+    © 2025 Simple Amazon Clone. All rights reserved.
+  </footer>
+  <script>
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartBody = document.getElementById('cartBody');
+      const cartTotal = document.getElementById('cartTotal');
+      const emptyMsg = document.getElementById('emptyMessage');
+      cartBody.innerHTML = '';
+      let total = 0;
+
+      if (cart.length === 0) {
+        emptyMsg.style.display = 'block';
+        cartTotal.innerText = '';
+        return;
+      } else {
+        emptyMsg.style.display = 'none';
+      }
+
+      cart.forEach((item, idx) => {
+        let subtotal = item.price * item.quantity;
+        total += subtotal;
+        let row = document.createElement('tr');
+        row.innerHTML = `
+          <td><img src="${item.image}" alt="${item.title}" style="width:60px; border-radius:6px;"></td>
+          <td>${item.title}</td>
+          <td>₹${item.price}</td>
+          <td>${item.quantity}</td>
+          <td>₹${subtotal}</td>
+          <td><button class="remove-btn" onclick="removeItem(${idx})">Remove</button></td>
+        `;
+        cartBody.appendChild(row);
+      });
+      cartTotal.innerText = "Total: ₹" + total;
+    }
+    function removeItem(index) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      loadCart();
+    }
+    loadCart();
+  </script>
+</body>
+</html>

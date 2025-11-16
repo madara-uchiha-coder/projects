@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Amazon Clone Page</title>
+  <link rel="icon" href="az.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+    .header {
+      background: #131921;
+      color: #fff;
+      padding: 16px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #fff;
+      text-decoration: none;
+    }
+    .search-bar {
+      flex: 1;
+      max-width: 600px;
+      margin: 0 24px;
+      display: flex;
+    }
+    .search-bar input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+    }
+    .search-bar button {
+      padding: 10px 20px;
+      background: #f3a847;
+      border: none;
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+    }
+    .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+    .cart-count {
+      background: #f3a847;
+      color: #131921;
+      border-radius: 50%;
+      padding: 2px 8px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      margin-left: 6px;
+    }
+    .products {
+      max-width: 1200px;
+      margin: 32px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 24px;
+      padding: 0 24px;
+    }
+    .product {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .product img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    .product .title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 12px 0;
+      color: #333;
+    }
+    .product .price {
+      font-size: 1.3rem;
+      color: #b12704;
+      font-weight: bold;
+      margin: 12px 0;
+    }
+    .product button {
+      background: #f3a847;
+      color: #111;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    .product button:hover {
+      background: #e89b35;
+    }
+    .footer {
+      text-align: center;
+      background: #232f3e;
+      color: #fff;
+      padding: 24px 0;
+      margin-top: 48px;
+    }
+    .notification {
+      position: fixed;
+      top: 80px;
+      right: 24px;
+      background: #28a745;
+      color: #fff;
+      padding: 16px 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+    .notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="webpage.html" class="logo">Amazon</a>
+    <form class="search-bar" onsubmit="return false;">
+      <input type="text" placeholder="Search...">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+    <nav class="nav-links">
+      <a href="#">Hello, Sign in</a>
+      <a href="#">Returns & Orders</a>
+      <a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart <span class="cart-count" id="cartCount">0</span></a>
+    </nav>
+  </div>
+
+  <div id="notification" class="notification"></div>
+
+  <main class="products">
+    <div class="product" data-id="1" data-title="Wireless Mouse" data-price="499" data-image="p1.jfif">
+      <img src="p1.jfif" alt="Product 1">
+      <div class="title">Wireless Mouse</div>
+      <div class="price">₹499</div>
+      <button onclick="addToCart(this)">Add to Cart</button>
+    </div>
+    <div class="product" data-id="2" data-title="Bluetooth Speaker" data-price="1299" data-image="p2.jfif">
+      <img src="p2.jfif" alt="Product 2">
+      <div class="title">Bluetooth Speaker</div>
+      <div class="price">₹1,299</div>
+      <button onclick="addToCart(this)">Add to Cart</button>
+    </div>
+    <div class="product" data-id="3" data-title="Smart Watch" data-price="2799" data-image="p3.jfif">
+      <img src="p3.jfif" alt="Product 3">
+      <div class="title">Smart Watch</div>
+      <div class="price">₹2,799</div>
+      <button onclick="addToCart(this)">Add to Cart</button>
+    </div>
+    <div class="product" data-id="4" data-title="Noise Cancelling Headphones" data-price="3999" data-image="p4.jfif">
+      <img src="p4.jfif" alt="Product 4">
+      <div class="title">Noise Cancelling Headphones</div>
+      <div class="price">₹13,999</div>
+      <button onclick="addToCart(this)">Add to Cart</button>
+    </div>
+    <div class="product" data-id="5" data-title="Phone" data-price="499" data-image="p5.png">
+      <img src="p5.png" alt="Product 5">
+      <div class="title">Phone</div>
+      <div class="price">₹65,499</div>
+      <button onclick="addToCart(this)">Add to Cart</button>
+    </div>
+    <div class="product" data-id="6" data-title="PS4" data-price="1299" data-image="p6.jfif">
+      <img src="p6.jfif" alt="Product 6">
+      <div class="title">PS4</div>
+      <div class="price">₹32,299</div>
+      <button onclick="addToCart(this)">Add to Cart</button>
+    </div>
+    <div class="product" data-id="7" data-title="Generic Controller" data-price="2799" data-image="p7.jfif">
+      <img src="p7.jfif" alt="Product 7">
+      <div class="title">Generic Controller</div>
+      <div class="price">₹2,799</div>
+      <button onclick="addToCart(this)">Add to Cart</button>
+    </div>
+    <div class="product" data-id="8" data-title="I Pad" data-price="35999" data-image="p8.jfif">
+      <img src="p8.jfif" alt="Product 8">
+      <div class="title">I Pad</div>
+      <div class="price">₹35,999</div>
+      <button onclick="addToCart(this)">Add to Cart</button>
+    </div>
+  </main>
+
+  <footer class="footer">
+    © 2025 Simple Amazon Clone. All rights reserved.
+  </footer>
+
+  <script>
+    // Cart stored in memory
+    let cart = [];
+
+    function loadCartFromStorage() {
+      const stored = localStorage.getItem('cart');
+      if (stored) {
+        cart = JSON.parse(stored);
+      }
+      updateCartCount();
+    }
+
+    function saveCartToStorage() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    function updateCartCount() {
+      const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cartCount').textContent = count;
+    }
+
+    function addToCart(button) {
+      const productDiv = button.closest('.product');
+      const product = {
+        id: productDiv.dataset.id,
+        title: productDiv.dataset.title,
+        price: parseInt(productDiv.dataset.price),
+        image: productDiv.dataset.image,
+        quantity: 1
+      };
+
+      const existingItem = cart.find(item => item.id === product.id);
+      if (existingItem) {
+        existingItem.quantity++;
+      } else {
+        cart.push(product);
+      }
+
+      saveCartToStorage();
+      updateCartCount();
+      showNotification(`${product.title} added to cart!`);
+    }
+
+    function showNotification(message) {
+      const notification = document.getElementById('notification');
+      notification.textContent = message;
+      notification.classList.add('show');
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 2000);
+    }
+
+    loadCartFromStorage();
+  </script>
+</body>
+</html>

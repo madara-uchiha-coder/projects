@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Send Data to Node</title>
+</head>
+<body>
+  <h2>Form → Node.js</h2>
+  <form id="myForm" action="/login" method="POST">
+    <input type="text" name="username" id="username" placeholder="Enter your name" required /><br><br>
+    <input type="email" name="email" id="password" placeholder="Enter your email" required /><br><br>
+    <button type="submit">Send</button>
+  </form>
+<script>
+    let user=document.querySelector(".username");
+    let pass=document.querySelector(".password");
+async function sendData() {
+  const response = await fetch('/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: user, email: pass })
+  });
+  const data = await response.text();
+  console.log(data);
+}
+sendData();
+</script>
+</body>
+</html>
